@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        h1 {
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Age Calculator</h1>
+        <label for="birthDay">Birth Day (1-31):</label>
+        <input type="number" id="birthDay" min="1" max="31" required>
+        
+        <label for="birthMonth">Birth Month (1-12):</label>
+        <input type="number" id="birthMonth" min="1" max="12" required>
+        
+        <label for="birthYear">Birth Year (e.g., 1990):</label>
+        <input type="number" id="birthYear" min="1900" max="2023" required>
+        
+        <button onclick="calculateAge()">Calculate Age</button>
+        
+        <p id="result"></p>
+    </div>
+
+    <script>
+        function calculateAge() {
+            const birthDay = parseInt(document.getElementById('birthDay').value);
+            const birthMonth = parseInt(document.getElementById('birthMonth').value);
+            const birthYear = parseInt(document.getElementById('birthYear').value);
+            
+            if (isNaN(birthDay) || isNaN(birthMonth) || isNaN(birthYear)) {
+                document.getElementById('result').textContent = "Please enter valid numbers.";
+                return;
+            }
+            
+            const today = new Date();
+            const birthDate = new Date(birthYear, birthMonth - 1, birthDay); // Month is 0-indexed
+            
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+            
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            
+            document.getElementById('result').textContent = `Your current age is ${age} years.`;
+        }
+    </script>
+</body>
+</html>
